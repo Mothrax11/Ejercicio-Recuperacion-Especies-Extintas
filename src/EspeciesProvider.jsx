@@ -1,0 +1,22 @@
+import React, { createContext, useState, useEffect } from "react";
+export const EspeciesContext = createContext();
+
+export const EspeciesProvider = ({ children }) => {
+    const [especiesItem, setEspeciesItem] = useState([]);
+
+    useEffect(() => {
+        const fetchEspecies = async () => {
+            const response = await fetch('especies.json');
+            const data = await response.json();
+            console.log(data)
+            setEspeciesItem(data)
+        }
+        fetchEspecies();
+    }, []);
+
+    return (
+        <EspeciesContext.Provider value={{especiesItem}}>
+            {children}
+        </EspeciesContext.Provider>
+    );
+};

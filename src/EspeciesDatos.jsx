@@ -1,0 +1,31 @@
+import { React, useContext} from "react";
+import { Card } from "react-bootstrap";
+import { EspeciesContext } from "./EspeciesProvider";
+
+function EspeciesDatos(){
+    const { especiesItem } = useContext(EspeciesContext);
+    
+    return(
+        <>
+            <div>
+                {especiesItem.map((especie, index) => (
+                    <Card key={index} style={{marginTop:"20px"}}>
+                        <Card.Img src={especie.imagen}></Card.Img>
+                        <Card.Title>{especie.nombre}</Card.Title>
+                        <Card.Body>
+                            <p>
+                                Periodo - {especie.periodo}
+                            </p>
+                            <p>
+                                Habitat - {especie.habitat}
+                            </p>
+                        </Card.Body>
+
+                    </Card>
+                ))}
+            </div>
+        </>
+    )       
+}
+
+export default EspeciesDatos;
