@@ -19,6 +19,15 @@ function EspeciesDatos(){
                             <p>
                                 Habitat - {especie.habitat}
                             </p>
+                            <p>
+                            {especie.causas.length > 1 ? "Causas de su extinción:" : "Causa de su extinción:"}
+                            <ul>
+                                {especie.causas.map((causa) => ( 
+                                    <li>{causa}</li>
+                                ))}
+                            </ul>
+                            </p>
+                            
                         </Card.Body>
 
                     </Card>
