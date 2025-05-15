@@ -1,5 +1,6 @@
 import { React, useContext} from "react";
 import { Card } from "react-bootstrap";
+import { Link } from "react-router";
 import { EspeciesContext } from "./EspeciesProvider";
 
 function EspeciesDatos(){
@@ -11,7 +12,7 @@ function EspeciesDatos(){
                 {especiesItem.map((especie, index) => (
                     <Card key={index} style={{marginTop:"20px"}}>
                         <Card.Img src={especie.imagen}></Card.Img>
-                        <Card.Title>{especie.nombre}</Card.Title>
+                        <Card.Title as={Link} to={`/especie/${especie.id}`}>{especie.nombre}</Card.Title>
                         <Card.Body>
                             <p>
                                 Periodo - {especie.periodo}
@@ -29,7 +30,6 @@ function EspeciesDatos(){
                             </p>
                             
                         </Card.Body>
-
                     </Card>
                 ))}
             </div>

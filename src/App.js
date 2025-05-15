@@ -12,7 +12,7 @@ function App() {
           <BrowserRouter>
           <Routes>
             <Route path="/" element={<EspeciesDatos/>}/>
-            <Route path="/especie/:nombre" element={<EspecieDetail/>}/>
+            <Route path="/especie/:id" element={<EspecieDetail/>}/>
           </Routes>
         </BrowserRouter>
         </EspeciesProvider>
