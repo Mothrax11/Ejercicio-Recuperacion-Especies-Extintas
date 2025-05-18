@@ -11,6 +11,7 @@ function EspeciesDatos(){
             <div>
                 {especiesItem.map((especie, index) => (
                     <Card key={index} style={{marginTop:"20px"}}>
+                        {console.log(especie)}
                         <Card.Img src={especie.imagen}></Card.Img>
                         <Card.Title as={Link} to={`/especie/${especie.id}`}>{especie.nombre}</Card.Title>
                         <Card.Body>
@@ -23,8 +24,8 @@ function EspeciesDatos(){
                             <p>
                             {especie.causas.length > 1 ? "Causas de su extinción:" : "Causa de su extinción:"}
                             <ul>
-                                {especie.causas.map((causa) => ( 
-                                    <li>{causa}</li>
+                                {especie.causas.map((causa, index) => ( 
+                                    <li key={index}>{causa}</li>
                                 ))}
                             </ul>
                             </p>

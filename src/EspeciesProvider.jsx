@@ -8,7 +8,6 @@ export const EspeciesProvider = ({ children }) => {
         const fetchEspecies = async () => {
             const response = await fetch('especies.json');
             const data = await response.json();
-            console.log(data)
             setEspeciesItem(data)
         }
         fetchEspecies();
