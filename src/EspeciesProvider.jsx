@@ -14,7 +14,7 @@ export const EspeciesProvider = ({ children }) => {
     }, []);
 
     return (
-        <EspeciesContext.Provider value={{especiesItem}}>
+        <EspeciesContext.Provider value={{especiesItem, setEspeciesItem}}>
             {children}
         </EspeciesContext.Provider>
     );

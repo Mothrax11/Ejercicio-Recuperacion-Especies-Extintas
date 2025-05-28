@@ -1,17 +1,87 @@
-import { React, useContext} from "react";
-import { Card } from "react-bootstrap";
+import { React, useContext, useEffect, useState} from "react";
+import { Button, Card, CardFooter, Modal, ModalBody } from "react-bootstrap";
 import { Link } from "react-router";
 import { EspeciesContext } from "./EspeciesProvider";
 
 function EspeciesDatos(){
-    const { especiesItem } = useContext(EspeciesContext);
+    const { especiesItem, setEspeciesItem } = useContext(EspeciesContext);
+    const [formularioAbierto, setFormularioAbierto] = useState(false)
+
+    const [nuevaEspecie, setNuevaEspecie] = useState({
+        nombre: "",
+        periodo: "",
+        habitat: "",
+        causas: "",
+        imagen: "",
+        tipo_animal: "",
+    });
     
+    useEffect(() => {
+             
+
+    }, [especiesItem])
+
+    const handleChange = (e) => {
+        const { name, value, files } = e.target;
+        if(name === "imagen") {
+            const file = files[0];
+            if (file){
+                setNuevaEspecie({...nuevaEspecie, imagen: URL.createObjectURL(file)})
+            }
+        } else {
+            setNuevaEspecie({...nuevaEspecie, [name]: value})
+        }
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const nueva = {
+            ...nuevaEspecie,
+            id: especiesItem.length + 1,
+            causas: nuevaEspecie.causas.split(",").map(c => c.trim())
+        };
+
+        setEspeciesItem([...especiesItem, nueva]);
+
+        setNuevaEspecie({
+            nombre: "",
+            periodo: "",
+            habitat: "",
+            causas: "",
+            imagen: "",
+            tipo_animal: "",
+        });
+        setFormularioAbierto(false);
+    };
+
+    const handleDelete = (id) => {
+        const filtradas = especiesItem.filter(especie => especie.id !== id);
+        setEspeciesItem(filtradas);
+    }
+
+
     return(
         <>
-            <div>
+            
+            <Modal show={formularioAbierto}>
+                <ModalBody>
+                    <form onSubmit={handleSubmit} style={{ marginTop: "4%" }}>
+                        <input name="nombre" type="text" placeholder="Nombre" value={nuevaEspecie.nombre} onChange={handleChange} required />
+                        <input name="periodo" type="text" placeholder="Periodo" value={nuevaEspecie.periodo} onChange={handleChange} required />
+                        <input name="habitat" type="text" placeholder="Hábitat" value={nuevaEspecie.habitat} onChange={handleChange} required />
+                        <input name="causas" type="text" placeholder="Causas (separadas por comas)" value={nuevaEspecie.causas} onChange={handleChange} required />
+                        <input name="imagen" type="file" placeholder="Imagen" onChange={handleChange} required />
+                        <input name="tipo_animal" type="text" placeholder="Tipo de animal" value={nuevaEspecie.tipo_animal} onChange={handleChange} required />
+                        <button type="submit">Añadir especie</button>
+                    </form>
+                </ModalBody>
+            </Modal>
+            
+            <div style={{marginTop:"5%"}}>
                 {especiesItem.map((especie, index) => (
                     <Card key={index} style={{marginTop:"20px"}}>
-                        {console.log(especie)}
+                        
                         <Card.Img src={especie.imagen}></Card.Img>
                         <Card.Title as={Link} to={`/especie/${especie.id}`}>{especie.nombre}</Card.Title>
                         <Card.Body>
@@ -31,9 +101,18 @@ function EspeciesDatos(){
                             </p>
                             
                         </Card.Body>
+                        <CardFooter>
+                            <Button style={{ marginTop: "5%", backgroundColor:"red" }} onClick={() => handleDelete(especie.id)} >
+                                Eliminar Especie
+                            </Button>
+                        </CardFooter>
+
                     </Card>
                 ))}
             </div>
+            <Button style={{ marginTop: "5%" }} onClick={() => setFormularioAbierto(!formularioAbierto)}>
+                Añadir Especie
+            </Button>
         </>
     )       
 }

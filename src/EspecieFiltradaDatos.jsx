@@ -6,27 +6,38 @@ import { useParams, Link } from "react-router";
 function EspecieFiltradaDatos (){
 
     const {especiesItem} = useContext(EspeciesContext)
-    const {periodo} = useParams()
-    const [periodoElegido, setPeriodoElegido]  = useState("")
+    const {periodo, habitat} = useParams()
     const [especiesFiltradas, setEspeciesFiltradas]  = useState([])
 
     useEffect(() => {
-        const periodoFormateado = String(periodo).replaceAll("-", " ");
-        const especiesFiltradasTemp = especiesItem.filter(
-            especie => especie.periodo.includes(periodoFormateado)
-        );
-        setEspeciesFiltradas(especiesFiltradasTemp);
-    }, [especiesItem, periodo]);
+       let filtradas = especiesItem;
+       
+        if (periodo) {
+            const periodoFormateado = String(periodo).replaceAll("-", " ");
+            filtradas = filtradas.filter((especie) =>
+                especie.periodo.includes(periodoFormateado)
+            );
+        }
+
+        if (habitat) {
+            const habitatFormateado = String(habitat).replaceAll("-", " ");
+            filtradas = filtradas.filter((especie) =>
+                especie.habitat.includes(habitatFormateado)
+            );
+        }
+        setEspeciesFiltradas(filtradas);
+    }, [especiesItem, periodo, habitat]);
 
 
 
-
+    
     return (
         <>
             <div>
                 {especiesFiltradas.map((currentEspecieFiltrada, index) => (
                     <Card key={index} style={{marginTop:"20px"}}>
-                        {console.log(currentEspecieFiltrada)}
+                        
+                        
                         <Card.Img src={`/${currentEspecieFiltrada.imagen}`}></Card.Img>
                         <Card.Title as={Link} to={`/especie/${currentEspecieFiltrada.id}`}>{currentEspecieFiltrada.nombre}</Card.Title>
                         <Card.Body>

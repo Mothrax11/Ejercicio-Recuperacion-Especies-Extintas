@@ -16,7 +16,9 @@ function App() {
           <Routes>
             <Route path="/" element={<EspeciesDatos/>}/>
             <Route path="/especie/:id" element={<EspecieDetail/>}/>
-            <Route path="/especie/causa/:causa" element={<EspecieFiltradaDatos/>}/>
+            <Route path="/especie/periodo/:periodo/habitat/:habitat" element={<EspecieFiltradaDatos />} />
+            <Route path="/especie/habitat/:habitat/periodo/:periodo" element={<EspecieFiltradaDatos />} />
+            <Route path="/especie/habitat/:habitat" element={<EspecieFiltradaDatos/>}/>
             <Route path="/especie/periodo/:periodo" element={<EspecieFiltradaDatos/>}/>
           </Routes>
         </BrowserRouter>
