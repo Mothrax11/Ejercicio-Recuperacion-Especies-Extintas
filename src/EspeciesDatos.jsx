@@ -6,6 +6,7 @@ import { EspeciesContext } from "./EspeciesProvider";
 function EspeciesDatos(){
     const { especiesItem, setEspeciesItem } = useContext(EspeciesContext);
     const [formularioAbierto, setFormularioAbierto] = useState(false)
+    const [busqueda, setBusqueda] = useState("");
 
     const [nuevaEspecie, setNuevaEspecie] = useState({
         nombre: "",
@@ -15,11 +16,6 @@ function EspeciesDatos(){
         imagen: "",
         tipo_animal: "",
     });
-    
-    useEffect(() => {
-             
-
-    }, [especiesItem])
 
     const handleChange = (e) => {
         const { name, value, files } = e.target;
@@ -60,10 +56,16 @@ function EspeciesDatos(){
         setEspeciesItem(filtradas);
     }
 
+    const handleChangeBuscar = (e) => {
+        setBusqueda(e.target.value);
+    };
+
+    const especiesFiltradas = especiesItem.filter(especie =>
+        especie.nombre.toLowerCase().includes(busqueda.toLowerCase())
+    );
 
     return(
         <>
-            
             <Modal show={formularioAbierto}>
                 <ModalBody>
                     <form onSubmit={handleSubmit} style={{ marginTop: "4%" }}>
@@ -77,11 +79,11 @@ function EspeciesDatos(){
                     </form>
                 </ModalBody>
             </Modal>
-            
-            <div style={{marginTop:"5%"}}>
-                {especiesItem.map((especie, index) => (
-                    <Card key={index} style={{marginTop:"20px"}}>
-                        
+            <div style={{ marginTop: "5%" }}>
+                <input type="text" placeholder="Escribe el nombre de la especie que quieres buscar" value={busqueda} onChange={handleChangeBuscar} style={{ marginBottom: "20px", padding: "8px", width: "100%" }}/>
+
+                {especiesFiltradas.map((especie, index) => (
+                    <Card key={index} style={{ marginTop: "20px" }}>
                         <Card.Img src={especie.imagen}></Card.Img>
                         <Card.Title as={Link} to={`/especie/${especie.id}`}>{especie.nombre}</Card.Title>
                         <Card.Body>
@@ -99,14 +101,12 @@ function EspeciesDatos(){
                                 ))}
                             </ul>
                             </p>
-                            
                         </Card.Body>
                         <CardFooter>
                             <Button style={{ marginTop: "5%", backgroundColor:"red" }} onClick={() => handleDelete(especie.id)} >
                                 Eliminar Especie
                             </Button>
                         </CardFooter>
-
                     </Card>
                 ))}
             </div>
@@ -116,5 +116,4 @@ function EspeciesDatos(){
         </>
     )       
 }
-
 export default EspeciesDatos;

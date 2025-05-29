@@ -5,6 +5,7 @@ import { EspeciesProvider } from './EspeciesProvider';
 import EspecieDetail from './EspecieDetail';
 import Navegacion from './BarraDeNavegacion';
 import EspecieFiltradaDatos from './EspecieFiltradaDatos';
+import MapaInteractivo from './MapaInteractivo';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/especie/habitat/:habitat" element={<EspecieFiltradaDatos/>}/>
             <Route path="/especie/periodo/:periodo" element={<EspecieFiltradaDatos/>}/>
           </Routes>
+        <MapaInteractivo></MapaInteractivo>
         </BrowserRouter>
         </EspeciesProvider>
       </header>
