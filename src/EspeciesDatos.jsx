@@ -7,6 +7,8 @@ function EspeciesDatos(){
     const { especiesItem, setEspeciesItem } = useContext(EspeciesContext);
     const [formularioAbierto, setFormularioAbierto] = useState(false)
     const [busqueda, setBusqueda] = useState("");
+    const [fechas, setFechas] = useState([]);
+      const [indice, setIndice] = useState(0);
 
     const [nuevaEspecie, setNuevaEspecie] = useState({
         nombre: "",
@@ -16,6 +18,19 @@ function EspeciesDatos(){
         imagen: "",
         tipo_animal: "",
     });
+
+    useEffect(() => {
+       const periodosUnicos = [];
+
+        for (let i = 0; i < especiesItem.length; i++) {
+            const periodo = especiesItem[i].periodo;
+            if (!periodosUnicos.includes(periodo)) {
+                periodosUnicos.push(periodo);
+            }
+        }
+        setFechas(periodosUnicos);
+
+        }, [especiesItem])
 
     const handleChange = (e) => {
         const { name, value, files } = e.target;
@@ -61,11 +76,19 @@ function EspeciesDatos(){
     };
 
     const especiesFiltradas = especiesItem.filter(especie =>
-        especie.nombre.toLowerCase().includes(busqueda.toLowerCase())
+        especie.nombre.toLowerCase().includes(busqueda.toLowerCase()) && especie.periodo ===  fechas[indice]
     );
 
+    console.log(fechas)
+
+    const cambiarIndice = (e) => {
+        setIndice(parseInt(e.target.value));
+        
+    };
+
     return(
-        <>
+        <>  
+            
             <Modal show={formularioAbierto}>
                 <ModalBody>
                     <form onSubmit={handleSubmit} style={{ marginTop: "4%" }}>
@@ -81,7 +104,12 @@ function EspeciesDatos(){
             </Modal>
             <div style={{ marginTop: "5%" }}>
                 <input type="text" placeholder="Escribe el nombre de la especie que quieres buscar" value={busqueda} onChange={handleChangeBuscar} style={{ marginBottom: "20px", padding: "8px", width: "100%" }}/>
-
+                 {fechas.length > 0 && (
+                    <>
+                        <input type="range" min="0" max={fechas.length - 1} step="1" value={indice} onChange={cambiarIndice} style={{ marginBottom: "20px", padding: "8px", width: "100%" }}/>
+                        <p><strong>{fechas[indice]}</strong></p>
+                    </>
+                )}
                 {especiesFiltradas.map((especie, index) => (
                     <Card key={index} style={{ marginTop: "20px" }}>
                         <Card.Img src={especie.imagen}></Card.Img>
