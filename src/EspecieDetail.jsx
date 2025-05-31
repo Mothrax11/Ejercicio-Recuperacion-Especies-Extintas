@@ -1,7 +1,7 @@
 import { React, useContext, useState, useEffect} from "react";
-import { Card } from "react-bootstrap";
+import { Card, Col, Row, Container } from "react-bootstrap";
 import { EspeciesContext } from "./EspeciesProvider";
-import { useParams, Link } from "react-router";
+import { useParams } from "react-router";
 
 function EspecieDetail(){
 
@@ -22,27 +22,29 @@ function EspecieDetail(){
     }
     return (
         <>
-           <div style={{marginTop:"5%", marginBottom:"2%"}}>
-                <Card style={{marginTop:"20px"}}>
-                    <Card.Img src={`/${especieElegida.imagen}`}></Card.Img>
-                    <Card.Title>{especieElegida.nombre}</Card.Title>
-                    <Card.Body>
-                        <p>
-                            Periodo - {especieElegida.periodo}
-                        </p>
-                        <p>
-                            Habitat - {especieElegida.habitat}
-                        </p>
-                        <p>
-                        {especieElegida.causas.length > 1 ? "Causas de su extinción:" : "Causa de su extinción:"}
-                        <ul>
-                            {especieElegida.causas.map((causa, index) => ( 
-                                <li key={index}>{causa}</li>
-                            ))}
-                        </ul>
-                        </p>
-                    </Card.Body>
-                </Card>
+            <div style={{ marginTop: "5%", marginBottom: "2%" }}>
+                <Container>
+                    <Row className="justify-content-center">
+                        <Col sm={6} md={4} lg={2}>
+                            <Card style={{ marginTop: "20px" }}>
+                                <Card.Img src={`/${especieElegida.imagen}`} />
+                                <Card.Title>{especieElegida.nombre}</Card.Title>
+                                <Card.Body>
+                                    <p>Periodo - {especieElegida.periodo}</p>
+                                    <p>Habitat - {especieElegida.habitat}</p>
+                                    <p>
+                                        {especieElegida.causas.length > 1 ? "Causas de su extinción:" : "Causa de su extinción:"}
+                                        <ul>
+                                            {especieElegida.causas.map((causa, index) => (
+                                                <li key={index}>{causa}</li>
+                                            ))}
+                                        </ul>
+                                    </p>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    </Row>
+                </Container>
             </div>
         </>
     );

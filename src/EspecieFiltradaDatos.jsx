@@ -1,5 +1,5 @@
 import { React, useContext, useState, useEffect} from "react";
-import { Card, CardTitle } from "react-bootstrap";
+import { Card, Col, Row, Container } from "react-bootstrap";
 import { EspeciesContext } from "./EspeciesProvider";
 import { useParams, Link } from "react-router";
 
@@ -32,35 +32,34 @@ function EspecieFiltradaDatos (){
 
     
     return (
-        <>
-            <div>
-                {especiesFiltradas.map((currentEspecieFiltrada, index) => (
-                    <Card key={index} style={{marginTop:"20px"}}>
-                        
-                        
-                        <Card.Img src={`/${currentEspecieFiltrada.imagen}`}></Card.Img>
-                        <Card.Title as={Link} to={`/especie/${currentEspecieFiltrada.id}`}>{currentEspecieFiltrada.nombre}</Card.Title>
-                        <Card.Body>
-                            <p>
-                                Periodo - {currentEspecieFiltrada.periodo}
-                            </p>
-                            <p>
-                                Habitat - {currentEspecieFiltrada.habitat}
-                            </p>
-                            <p>
-                            {currentEspecieFiltrada.causas.length > 1 ? "Causas de su extinción:" : "Causa de su extinción:"}
-                            <ul>
-                                {currentEspecieFiltrada.causas.map((causa) => ( 
-                                    <li>{causa}</li>
-                                ))}
-                            </ul>
-                            </p>
-                            
-                        </Card.Body>
-                    </Card>
-                ))}
-            </div>
-        </>
+        <div style={{ marginTop: "2%" }}>
+            <Container>
+                <Row className="justify-content-center">
+                    {especiesFiltradas.map((especie, index) => (
+                        <Col key={index} sm={2} md={4} lg={6}>
+                            <Card style={{ marginTop: "20px" }}>
+                                <Card.Img src={`/${especie.imagen}`} />
+                                <Card.Title as={Link} to={`/especie/${especie.id}`}>
+                                    {especie.nombre}
+                                </Card.Title>
+                                <Card.Body>
+                                    <p>Periodo - {especie.periodo}</p>
+                                    <p>Habitat - {especie.habitat}</p>
+                                    <p>
+                                        {especie.causas.length > 1 ? "Causas de su extinción:" : "Causa de su extinción:"}
+                                        <ul>
+                                            {especie.causas.map((causa, i) => (
+                                                <li key={i}>{causa}</li>
+                                            ))}
+                                        </ul>
+                                    </p>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    ))}
+                </Row>
+            </Container>
+        </div>
     );
 }
 

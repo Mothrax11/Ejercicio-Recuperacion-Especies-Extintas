@@ -20,7 +20,7 @@ function EspeciesDatos(){
     });
 
     useEffect(() => {
-       const periodosUnicos = [];
+       const periodosUnicos = ["Todos"];
 
         for (let i = 0; i < especiesItem.length; i++) {
             const periodo = especiesItem[i].periodo;
@@ -76,7 +76,7 @@ function EspeciesDatos(){
     };
 
     const especiesFiltradas = especiesItem.filter(especie =>
-        especie.nombre.toLowerCase().includes(busqueda.toLowerCase()) && especie.periodo ===  fechas[indice]
+        especie.nombre.toLowerCase().includes(busqueda.toLowerCase()) && (indice === 0 || especie.periodo === fechas[indice])
     );
 
     console.log(fechas)
@@ -103,13 +103,15 @@ function EspeciesDatos(){
                 </ModalBody>
             </Modal>
             <div style={{ marginTop: "5%" }}>
-                <input type="text" placeholder="Escribe el nombre de la especie que quieres buscar" value={busqueda} onChange={handleChangeBuscar} style={{ marginBottom: "20px", padding: "8px", width: "100%" }}/>
+                <input type="text" placeholder="Nombre de la especie..." value={busqueda} onChange={handleChangeBuscar} style={{ marginBottom: "20px", padding: "8px", width: "100%" }}/>
                  {fechas.length > 0 && (
                     <>
                         <input type="range" min="0" max={fechas.length - 1} step="1" value={indice} onChange={cambiarIndice} style={{ marginBottom: "20px", padding: "8px", width: "100%" }}/>
                         <p><strong>{fechas[indice]}</strong></p>
                     </>
-                )}
+                 )}
+            </div>
+            <div style={{ marginTop: "2%" }}>
                 {especiesFiltradas.map((especie, index) => (
                     <Card key={index} style={{ marginTop: "20px" }}>
                         <Card.Img src={especie.imagen}></Card.Img>
